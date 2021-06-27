@@ -19,7 +19,15 @@ class ScaffoldTheme extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
         ),
       ),
-      body: body,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft, end: Alignment.bottomRight,
+              //stops: [0.3, 1],
+              colors: [Colors.white30, Colors.grey.shade800]),
+        ),
+        child: body,
+      ),
     );
   }
 }

@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   flutter_advanced_drawer: ^1.2.1
+  url_launcher: ^6.0.7
+  flutter_cube: ^0.1.1
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +27,7 @@ flutter:
     - assets/logos/
     - assets/icons/
     - assets/images/
+    - assets/objects/
 
   #   - family: Schyler
   #     fonts:

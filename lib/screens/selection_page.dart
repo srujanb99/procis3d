@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:procis3d/components/drawer_menu.dart';
 import 'package:procis3d/components/drop_down.dart';
+import 'package:procis3d/constants.dart';
 import 'package:procis3d/lists.dart';
 
 class SelectionPage extends StatelessWidget {
@@ -16,7 +17,7 @@ class SelectionPage extends StatelessWidget {
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
       animateChildDecoration: true,
-      drawer: DrawerMenu('/home'),
+      drawer: DrawerMenu('home'),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -74,35 +75,52 @@ class _SelectionState extends State<Selection> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text(
-            'Choose your subject-topic from the following options:',
-            style: TextStyle(fontSize: 20.0),
-            textAlign: TextAlign.center,
+        Container(
+          width: 300.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Subject',
+                style: kFormTitle,
+              ),
+              DropDownSelector(
+                value: subject,
+                valueList: subjects,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    subject = newValue!;
+                  });
+                },
+              ).dropDownSelector(),
+            ],
           ),
         ),
-        DropDownSelector(
-          value: subject,
-          valueList: subjects,
-          onChanged: (String? newValue) {
-            setState(() {
-              subject = newValue!;
-            });
-          },
-        ).dropDownSelector(),
-        DropDownSelector(
-          value: topic,
-          valueList: Electronics,
-          onChanged: (String? newValue) {
-            setState(() {
-              topic = newValue!;
-            });
-          },
-        ).dropDownSelector(),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.0),
+        Container(
+          width: 300.0,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Topic',
+                style: kFormTitle,
+              ),
+              DropDownSelector(
+                value: topic,
+                valueList: Electronics,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    topic = newValue!;
+                  });
+                },
+              ).dropDownSelector(),
+            ],
+          ),
+        ),
+        Container(
+          width: 300.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: ListTile(
@@ -116,6 +134,11 @@ class _SelectionState extends State<Selection> {
                           _selectedType = value;
                         });
                       }),
+                  onTap: () {
+                    setState(() {
+                      _selectedType = type.theory;
+                    });
+                  },
                 ),
               ),
               Expanded(
@@ -130,16 +153,20 @@ class _SelectionState extends State<Selection> {
                           _selectedType = value;
                         });
                       }),
+                  onTap: () {
+                    setState(() {
+                      _selectedType = type.formula;
+                    });
+                  },
                 ),
               ),
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        Center(
           child: Text(
-            'Choose the $selectedType:',
-            style: TextStyle(fontSize: 20.0),
+            '$selectedType:',
+            style: kFormTitle,
             textAlign: TextAlign.center,
           ),
         ),

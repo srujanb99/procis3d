@@ -3,6 +3,7 @@ import 'package:procis3d/screens/about.dart';
 import 'package:procis3d/screens/help.dart';
 import 'package:procis3d/screens/selection_page.dart';
 import 'package:procis3d/screens/param_output.dart';
+import 'package:procis3d/screens/splash_screen.dart';
 
 void main() => runApp(Procis3D());
 
@@ -19,7 +20,7 @@ class Procis3D extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.yellow.shade800,
       ),
-      home: SelectionPage(),
+      home: SplashScreen(),
     );
   }
 }

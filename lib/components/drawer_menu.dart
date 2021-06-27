@@ -22,15 +22,18 @@ class DrawerMenu extends StatelessWidget {
                 child: Image.asset('assets/logos/procis3d_logo.png'),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-                if (screen != 'home') {
-                  Navigator.pushNamed(context, '/select');
-                }
-              },
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20.0),
+              ),
+              child: ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+                onTap: () => screen != 'home'
+                    ? Navigator.pushNamed(context, '/select')
+                    : Navigator.pushReplacementNamed(context, '/select'),
+                selected: true,
+              ),
             ),
             ListTile(
               leading: Icon(Icons.help),
@@ -48,11 +51,8 @@ class DrawerMenu extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.info),
               title: Text('About'),
-              onTap: () {
-                //Navigator.pop(context);
-                Navigator.pushNamed(context, '/about');
-              },
-            ),
+              onTap: () => Navigator.pushNamed(context, '/about'),
+            )
           ],
         ),
       ),
