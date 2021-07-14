@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(milliseconds: 1500),
+        Duration(milliseconds: 500),
         () => setState(() {
               _isLogoVisible = true;
             }));
-    Timer(Duration(milliseconds: 5000),
-        () => Navigator.pushReplacementNamed(context, '/select'));
+    /* Timer(Duration(milliseconds: 5000),
+        () => Navigator.pushReplacementNamed(context, '/select')); */
   }
 
   @override

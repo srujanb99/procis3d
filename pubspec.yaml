@@ -15,12 +15,19 @@ dependencies:
   flutter_advanced_drawer: ^1.2.1
   url_launcher: ^6.0.7
   flutter_cube: ^0.1.1
+  model_viewer: ^0.8.1
   screenshot: ^1.2.1
   path_provider: ^2.0.2
+  flutter_native_splash: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_native_splash:
+  color: "#f9a825"
+  android: true
+  ios: true
 
 flutter:
   uses-material-design: true

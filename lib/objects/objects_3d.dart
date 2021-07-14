@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+//import 'package:model_viewer/model_viewer.dart';
+// https://medium.com/flutterdevs/explore-model-viewer-in-flutter-e5988edbfe66
 
 class Objects3D extends StatefulWidget {
   @override
@@ -25,5 +27,12 @@ class _Objects3DState extends State<Objects3D> {
         scene.camera.zoom = 10;
       },
     );
+    /* return ModelViewer(
+      src: 'assets/objects/Sample.glb',
+      alt: "Sample Object",
+      ar: true,
+      autoRotate: true,
+      cameraControls: true,
+    ); */
   }
 }

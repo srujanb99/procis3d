@@ -21,11 +21,12 @@ class ScaffoldTheme extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft, end: Alignment.bottomRight,
-              //stops: [0.3, 1],
-              colors: [Colors.white30, Colors.grey.shade800]),
-        ),
+            gradient: LinearGradient(
+          begin: Alignment.topLeft, end: Alignment.bottomRight,
+          stops: [0.3, 1],
+          colors: [Colors.white30, Colors.grey.shade800],
+          //colors: [Colors.green, Colors.black],
+        )),
         child: body,
       ),
     );

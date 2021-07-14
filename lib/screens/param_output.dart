@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:procis3d/components/scaffold_theme.dart';
 import 'package:procis3d/constants.dart';
-import 'package:procis3d/objects_3d.dart';
+import 'package:procis3d/objects/objects_3d.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ParamsOutput extends StatelessWidget {
@@ -89,6 +89,7 @@ class _OutputState extends State<Output> {
           title: Text("Captured widget screenshot"),
         ),
         body: Center(
+            // ignore: unnecessary_null_comparison
             child: capturedImage != null
                 ? Image.memory(capturedImage)
                 : Container()),

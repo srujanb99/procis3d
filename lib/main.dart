@@ -17,10 +17,31 @@ class Procis3D extends StatelessWidget {
         '/help': (context) => Help(),
         '/about': (context) => About(),
       },
+      //initialRoute: '/select',
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.yellow.shade800,
       ),
-      home: SplashScreen(),
+      home: Splash(),
+      //debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class Splash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      // Replace the 3 second delay with your initialization code:
+      future: Future.delayed(Duration(seconds: 4)),
+      builder: (context, AsyncSnapshot snapshot) {
+        // Show splash screen while waiting for app resources to load:
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SplashScreen();
+        } else {
+          // Loading is done, return the app:
+          return SelectionPage();
+        }
+      },
     );
   }
 }

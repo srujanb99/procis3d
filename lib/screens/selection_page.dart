@@ -4,7 +4,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:procis3d/components/drawer_menu.dart';
 import 'package:procis3d/components/drop_down.dart';
 import 'package:procis3d/constants.dart';
-import 'package:procis3d/lists.dart';
+import 'package:procis3d/objects/lists.dart';
 
 class SelectionPage extends StatelessWidget {
   final _advancedDrawerController = AdvancedDrawerController();
