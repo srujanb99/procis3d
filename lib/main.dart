@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:procis3d/screens/about.dart';
 import 'package:procis3d/screens/help.dart';
 import 'package:procis3d/screens/selection_page.dart';
-import 'package:procis3d/screens/param_output.dart';
 import 'package:procis3d/screens/splash_screen.dart';
 
 void main() => runApp(Procis3D());
@@ -13,7 +12,6 @@ class Procis3D extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/select': (context) => SelectionPage(),
-        '/params': (context) => ParamsOutput(),
         '/help': (context) => Help(),
         '/about': (context) => About(),
       },
@@ -32,7 +30,7 @@ class Splash extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Replace the 3 second delay with your initialization code:
-      future: Future.delayed(Duration(seconds: 4)),
+      future: Future.delayed(Duration(seconds: 1)), //3-4 Seconds
       builder: (context, AsyncSnapshot snapshot) {
         // Show splash screen while waiting for app resources to load:
         if (snapshot.connectionState == ConnectionState.waiting) {

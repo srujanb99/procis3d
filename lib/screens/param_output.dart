@@ -3,10 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:procis3d/components/scaffold_theme.dart';
 import 'package:procis3d/constants.dart';
-import 'package:procis3d/objects/objects_3d.dart';
+import 'package:procis3d/objects/objects_listing.dart';
+import 'package:procis3d/objects/objects_view.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ParamsOutput extends StatelessWidget {
+  ParamsOutput({required this.objectId});
+  final String objectId;
   @override
   Widget build(BuildContext context) {
     return ScaffoldTheme(
@@ -14,7 +17,7 @@ class ParamsOutput extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20.0),
         child: Center(
-          child: Output(),
+          child: Output(objectId),
         ),
       ),
     );
@@ -22,11 +25,15 @@ class ParamsOutput extends StatelessWidget {
 }
 
 class Output extends StatefulWidget {
+  Output(this.objectId);
+  final String objectId;
   @override
-  _OutputState createState() => _OutputState();
+  _OutputState createState() => _OutputState(objectId);
 }
 
 class _OutputState extends State<Output> {
+  _OutputState(this.objectId);
+  final String objectId;
   ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class _OutputState extends State<Output> {
       children: [
         Expanded(
           child: Text(
-            'Selected Formula/Theory',
+            objects3d[objectId]!.title,
             style: kFormTitle,
           ),
         ),
@@ -48,7 +55,7 @@ class _OutputState extends State<Output> {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              child: Objects3D(),
+              child: ObjectView(objectId),
             ),
           ),
         ),
@@ -57,7 +64,7 @@ class _OutputState extends State<Output> {
         ),
         Expanded(
           child: Container(
-            child: Text('-Basic Info-'),
+            child: Text(objects3d[objectId]!.info),
           ),
         ),
         ElevatedButton(

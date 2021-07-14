@@ -5,6 +5,8 @@ import 'package:procis3d/components/drawer_menu.dart';
 import 'package:procis3d/components/drop_down.dart';
 import 'package:procis3d/constants.dart';
 import 'package:procis3d/objects/lists.dart';
+import 'package:procis3d/objects/objects_listing.dart';
+import 'package:procis3d/screens/param_output.dart';
 
 class SelectionPage extends StatelessWidget {
   final _advancedDrawerController = AdvancedDrawerController();
@@ -59,11 +61,110 @@ class Selection extends StatefulWidget {
 }
 
 class _SelectionState extends State<Selection> {
-  String subject = 'Electronics';
-  String topic = 'Analog Electronics';
-  String topicType = 'MOSFET';
+  String subject = subjects[0];
+  String topic = electronics[0];
+  String topicType = theories[0];
   type? _selectedType = type.theory;
   String selectedType = 'Theory';
+  String figure = 'Jet';
+
+  Widget topicView(int topicListType) {
+    List<Widget> listTiles = [];
+    switch (topicListType) {
+      case 0:
+        listTiles = [Container()];
+        break;
+      case 1:
+        listTiles = [
+          Container(
+            width: 300.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Theory'),
+                    horizontalTitleGap: 0.0,
+                    leading: Radio<type>(
+                        value: type.theory,
+                        groupValue: _selectedType,
+                        onChanged: (type? value) {
+                          setState(() {
+                            _selectedType = value;
+                          });
+                        }),
+                    onTap: () {
+                      setState(() {
+                        _selectedType = type.theory;
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Formula'),
+                    horizontalTitleGap: 0.0,
+                    leading: Radio<type>(
+                        value: type.formula,
+                        groupValue: _selectedType,
+                        onChanged: (type? value) {
+                          setState(() {
+                            _selectedType = value;
+                          });
+                        }),
+                    onTap: () {
+                      setState(() {
+                        _selectedType = type.formula;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Center(
+            child: Text(
+              '$selectedType:',
+              style: kFormTitle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Center(
+            child: DropDownSelector(
+              value: topicType,
+              valueList: theories,
+              onChanged: (String? newValue) {
+                setState(() {
+                  topicType = newValue!;
+                });
+              },
+            ).dropDownSelector(),
+          ),
+        ];
+        break;
+      case 2:
+        listTiles = [
+          Container(
+            child: Text(
+              'Linear Array',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ];
+        break;
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: listTiles,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +172,8 @@ class _SelectionState extends State<Selection> {
       selectedType = 'Formula';
     else
       selectedType = 'Theory';
+
+    int topicListType = topicListTypeSelector(topic);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,6 +193,9 @@ class _SelectionState extends State<Selection> {
                 onChanged: (String? newValue) {
                   setState(() {
                     subject = newValue!;
+                    topic = topicSelector(subject)[0];
+                    topicListType = topicListTypeSelector(topic);
+                    figure = topic;
                   });
                 },
               ).dropDownSelector(),
@@ -107,86 +213,34 @@ class _SelectionState extends State<Selection> {
               ),
               DropDownSelector(
                 value: topic,
-                valueList: Electronics,
+                valueList: topicSelector(subject),
                 onChanged: (String? newValue) {
                   setState(() {
                     topic = newValue!;
+                    topicListType = topicListTypeSelector(topic);
+                    figure = topic;
                   });
                 },
               ).dropDownSelector(),
             ],
           ),
         ),
-        Container(
-          width: 300.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: ListTile(
-                  title: Text('Theory'),
-                  horizontalTitleGap: 0.0,
-                  leading: Radio<type>(
-                      value: type.theory,
-                      groupValue: _selectedType,
-                      onChanged: (type? value) {
-                        setState(() {
-                          _selectedType = value;
-                        });
-                      }),
-                  onTap: () {
-                    setState(() {
-                      _selectedType = type.theory;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: ListTile(
-                  title: Text('Formula'),
-                  horizontalTitleGap: 0.0,
-                  leading: Radio<type>(
-                      value: type.formula,
-                      groupValue: _selectedType,
-                      onChanged: (type? value) {
-                        setState(() {
-                          _selectedType = value;
-                        });
-                      }),
-                  onTap: () {
-                    setState(() {
-                      _selectedType = type.formula;
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Center(
-          child: Text(
-            '$selectedType:',
-            style: kFormTitle,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        DropDownSelector(
-          value: topicType,
-          valueList: Theories,
-          onChanged: (String? newValue) {
-            setState(() {
-              topicType = newValue!;
-            });
-          },
-        ).dropDownSelector(),
+        topicView(topicListType),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
           ),
           child: Text('Next'),
           onPressed: () {
-            //Navigate to Screen 1
-            Navigator.pushNamed(context, '/params');
+            //Navigator.pushNamed(context, '/params');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ParamsOutput(
+                  objectId: getObjectKeyId(figure),
+                ),
+              ),
+            );
           },
         ),
       ],
