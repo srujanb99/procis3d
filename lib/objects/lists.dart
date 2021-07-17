@@ -3,14 +3,14 @@ const List<String> subjects = [
   'Mathematics',
 ];
 
-List<String> topicSelector(String subject) {
+List<String> getTopics(String? subject) {
   switch (subject) {
     case 'Electronics':
       return electronics;
     case 'Mathematics':
       return mathematics;
     default:
-      return electronics;
+      return [];
   }
 }
 
@@ -22,8 +22,7 @@ const List<String> electronics = [
 ];
 
 const List<String> mathematics = [
-  'Sphere',
-  'Cube',
+  '3D Shapes',
 ];
 
 /* const List<String> Physics = [
@@ -31,21 +30,45 @@ const List<String> mathematics = [
   'Semiconductors',
 ]; */
 
-int topicListTypeSelector(String topic) {
+int getTopicListType(String? topic) {
   int topicListType = 1;
   switch (topic) {
-    case 'Antenna':
+    case '3D Shapes':
       topicListType = 2;
       break;
-    case 'Sphere':
-      topicListType = 0;
-      break;
-    case 'Cube':
-      topicListType = 0;
+    case 'Antenna':
+      topicListType = 2;
       break;
   }
   return topicListType;
 }
+
+List<String> getSubTopics(String? topic) {
+  switch (topic) {
+    case '3D Shapes':
+      return shapes3D;
+    case 'Antenna':
+      return antenna;
+    default:
+      return [];
+  }
+}
+
+const List<String> shapes3D = [
+  'Cube',
+  'Sphere',
+];
+
+const List<String> antenna = [
+  'Wire',
+  'Log Periodic',
+  'Aperture',
+  'Microstrip',
+  'Reflector',
+  'Lens',
+  'Travelling-Wire',
+  'Array',
+];
 
 const List<String> theories = [
   'MOSFET',

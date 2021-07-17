@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:procis3d/constants.dart';
 
 class DropDownSelector {
   DropDownSelector({
-    required this.value,
+    this.value,
     required this.valueList,
     required this.onChanged,
+    required this.listType,
   });
-  String value;
-  final List<String> valueList;
-  final Function(String?)? onChanged;
+  String? value;
+  List<String> valueList;
+  Function(String?)? onChanged;
+  String listType;
 
-  DropdownButton<String> dropDownSelector() {
-    return DropdownButton(
+  DropdownButtonFormField<String> dropDownSelector() {
+    return DropdownButtonFormField(
       value: value,
+      style: kFormData,
       elevation: 16,
-      underline: Container(
+      decoration: InputDecoration(
+        labelText: listType,
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+      ),
+      /* underline: Container(
+        width: 100.0,
         height: 2.0,
         color: Colors.deepPurpleAccent,
-      ),
+      ), */
       onChanged: onChanged,
       items: valueList.map<DropdownMenuItem<String>>(
         (String value) {

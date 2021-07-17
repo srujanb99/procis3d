@@ -50,13 +50,7 @@ class _OutputState extends State<Output> {
           flex: 4,
           child: Screenshot(
             controller: screenshotController,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-              ),
-              child: ObjectView(objectId),
-            ),
+            child: ObjectView(objectId),
           ),
         ),
         SizedBox(
@@ -64,7 +58,10 @@ class _OutputState extends State<Output> {
         ),
         Expanded(
           child: Container(
-            child: Text(objects3d[objectId]!.info),
+            child: Text(
+              objects3d[objectId]!.info,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         ElevatedButton(

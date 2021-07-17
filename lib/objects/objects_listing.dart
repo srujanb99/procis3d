@@ -1,6 +1,6 @@
 import 'package:procis3d/objects/objects3d.dart';
 
-String getObjectKeyId(String figure) {
+String getObjectKeyId(String? figure) {
   String objectKeyId = '00';
   switch (figure) {
     case 'Sphere':
@@ -8,6 +8,9 @@ String getObjectKeyId(String figure) {
       break;
     case 'Cube':
       objectKeyId = '02';
+      break;
+    case 'Array':
+      objectKeyId = '03';
       break;
   }
   return objectKeyId;
@@ -34,5 +37,13 @@ var objects3d = {
     info: 'A Cube with flexible dimensions',
     file: 'cube.obj',
     fileType: 'obj',
+  ),
+  '03': Objects3D(
+    id: '03',
+    title: 'Linear Array Antenna',
+    info:
+        'A linear array is a single element wide with N number of elements across. The spacing may vary, but often it is uniform.',
+    file: 'Linear_Array_Radiation_Pattern.jpg',
+    fileType: 'jpg',
   ),
 };

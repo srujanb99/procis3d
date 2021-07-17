@@ -47,6 +47,7 @@ class DrawerMenu extends StatelessWidget {
             Divider(
               height: 20.0,
               thickness: 2.0,
+              color: Colors.yellow.shade800,
             ),
             ListTile(
               leading: Icon(Icons.info),
