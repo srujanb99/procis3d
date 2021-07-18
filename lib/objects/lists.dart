@@ -1,3 +1,14 @@
+/*
+A. To add a subject, add it to the list subjects[] and put a reference to the topics list in the getTopics method.
+B. To add a topic,
+    1. Add it to the list of that subject[].
+    2. Choose the listType to list the subtopics for that topic and add to the getTopicListType method.
+    3. Put a reference to the subtopics list in the getSubTopics method.
+C. To add a subtopic,
+    1. Add it to the list of that topic[].
+    2. Then go to objects_listing.dart and add the object for the subtopic.
+*/
+
 const List<String> subjects = [
   'Electronics',
   'Mathematics',

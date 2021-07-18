@@ -1,3 +1,10 @@
+/*
+To add an object,
+  1. Create an object key ID by adding the name and the objectKeyId in the getObjectKeyId method.
+  2. Go to objects3d map and add an Objects3D class object by specifying the ObjectKeyId as the map key.
+  3. Add id, title, info, file and fileType as all of them are required.
+*/
+
 import 'package:procis3d/objects/objects3d.dart';
 
 String getObjectKeyId(String? figure) {

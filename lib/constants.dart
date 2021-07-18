@@ -15,4 +15,5 @@ const kFormTitleDark = TextStyle(
 const kFormData = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w500,
+  color: Colors.white,
 );

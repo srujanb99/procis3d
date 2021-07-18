@@ -73,7 +73,7 @@ class _SelectionState extends State<Selection> {
   Widget topicView(int topicListType) {
     List<Widget> listTiles = [];
     switch (topicListType) {
-      case 1:
+      case 1: //List Type with Theory-Formula Base
         listTiles = [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +130,7 @@ class _SelectionState extends State<Selection> {
           ).dropDownSelector(),
         ];
         break;
-      case 2:
+      case 2: //Grid View of Sub Topics
         listTiles = [
           Expanded(
             child: GridView.count(
@@ -140,6 +140,7 @@ class _SelectionState extends State<Selection> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               crossAxisCount: 2,
+              physics: BouncingScrollPhysics(),
               children: getGridItems(),
             ),
           ),
@@ -155,6 +156,7 @@ class _SelectionState extends State<Selection> {
     );
   }
 
+  //Method to get the Grid Items
   List<Widget> getGridItems() {
     List<Widget> gridItems = [];
     List<String> subTopics = getSubTopics(topic);
@@ -232,6 +234,10 @@ class _SelectionState extends State<Selection> {
               height: 300.0,
               padding: EdgeInsets.only(right: 90.0),
               decoration: BoxDecoration(
+                border: Border.all(
+                  width: 0.0,
+                  color: Colors.yellow.shade800,
+                ),
                 borderRadius:
                     BorderRadius.horizontal(right: Radius.circular(150)),
                 color: Colors.yellow.shade800,

@@ -23,6 +23,7 @@ class About extends StatelessWidget {
                     letterSpacing: 1.0,
                     wordSpacing: 2.0,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(

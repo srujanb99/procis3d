@@ -1,11 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:procis3d/components/scaffold_theme.dart';
 import 'package:procis3d/constants.dart';
 import 'package:procis3d/objects/objects_listing.dart';
 import 'package:procis3d/objects/objects_view.dart';
-import 'package:screenshot/screenshot.dart';
 
 class ParamsOutput extends StatelessWidget {
   ParamsOutput({required this.objectId});
@@ -34,7 +31,7 @@ class Output extends StatefulWidget {
 class _OutputState extends State<Output> {
   _OutputState(this.objectId);
   final String objectId;
-  ScreenshotController screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,11 +44,8 @@ class _OutputState extends State<Output> {
           ),
         ),
         Expanded(
-          flex: 4,
-          child: Screenshot(
-            controller: screenshotController,
-            child: ObjectView(objectId),
-          ),
+          flex: 8,
+          child: ObjectView(objectId),
         ),
         SizedBox(
           height: 20.0,
@@ -64,40 +58,7 @@ class _OutputState extends State<Output> {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            screenshotController
-                .capture(delay: Duration(milliseconds: 10))
-                .then((capturedImage) async {
-              showCapturedWidget(context, capturedImage!);
-            }).catchError((onError) {
-              print(onError);
-            });
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.deepPurpleAccent,
-          ),
-          child: Text('Save Image'),
-        ),
       ],
-    );
-  }
-
-  Future<dynamic> showCapturedWidget(
-      BuildContext context, Uint8List capturedImage) {
-    return showDialog(
-      useSafeArea: false,
-      context: context,
-      builder: (context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Captured widget screenshot"),
-        ),
-        body: Center(
-            // ignore: unnecessary_null_comparison
-            child: capturedImage != null
-                ? Image.memory(capturedImage)
-                : Container()),
-      ),
     );
   }
 }

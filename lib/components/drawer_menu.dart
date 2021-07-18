@@ -15,6 +15,7 @@ class DrawerMenu extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(
+              margin: EdgeInsets.only(bottom: 0.0),
               decoration: BoxDecoration(
                 color: Colors.yellow.shade800,
               ),
@@ -22,17 +23,32 @@ class DrawerMenu extends StatelessWidget {
                 child: Image.asset('assets/logos/procis3d_logo.png'),
               ),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20.0),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 0.0,
+                  color: Colors.yellow.shade800,
+                ),
+                color: Colors.yellow.shade800,
               ),
-              child: ListTile(
-                leading: Icon(Icons.home),
-                title: Text('Home'),
-                onTap: () => screen != 'home'
-                    ? Navigator.pushNamed(context, '/select')
-                    : Navigator.pushReplacementNamed(context, '/select'),
-                selected: true,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 0.0,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20.0),
+                  ),
+                  color: Colors.grey[850],
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text('Home'),
+                  onTap: () => screen != 'home'
+                      ? Navigator.pushNamed(context, '/select')
+                      : Navigator.pushReplacementNamed(context, '/select'),
+                  selected: true,
+                ),
               ),
             ),
             ListTile(
@@ -53,7 +69,7 @@ class DrawerMenu extends StatelessWidget {
               leading: Icon(Icons.info),
               title: Text('About'),
               onTap: () => Navigator.pushNamed(context, '/about'),
-            )
+            ),
           ],
         ),
       ),
