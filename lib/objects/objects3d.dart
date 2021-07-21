@@ -5,7 +5,7 @@ class Objects3D {
       required this.info,
       required this.file,
       required this.fileType});
-  final String id;
+  final int id;
   final String title;
   final String info;
   final String file;

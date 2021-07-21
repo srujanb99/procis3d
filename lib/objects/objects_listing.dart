@@ -7,46 +7,46 @@ To add an object,
 
 import 'package:procis3d/objects/objects3d.dart';
 
-String getObjectKeyId(String? figure) {
-  String objectKeyId = '00';
+int getObjectKeyId(String? figure) {
+  int objectKeyId = 0;
   switch (figure) {
     case 'Sphere':
-      objectKeyId = '01';
+      objectKeyId = 1;
       break;
     case 'Cube':
-      objectKeyId = '02';
+      objectKeyId = 2;
       break;
     case 'Array':
-      objectKeyId = '03';
+      objectKeyId = 3;
       break;
   }
   return objectKeyId;
 }
 
 var objects3d = {
-  '00': Objects3D(
-    id: '00',
+  0: Objects3D(
+    id: 00,
     title: 'Jet',
     info: 'An Amazing Jet',
     file: 'Jet.obj',
     fileType: 'obj',
   ),
-  '01': Objects3D(
-    id: '01',
+  1: Objects3D(
+    id: 01,
     title: 'Sphere',
     info: 'A Sphere with adjustable radius',
     file: 'sphere.obj',
     fileType: 'obj',
   ),
-  '02': Objects3D(
-    id: '02',
+  2: Objects3D(
+    id: 02,
     title: 'Cube',
     info: 'A Cube with flexible dimensions',
     file: 'cube.obj',
     fileType: 'obj',
   ),
-  '03': Objects3D(
-    id: '03',
+  3: Objects3D(
+    id: 03,
     title: 'Linear Array Antenna',
     info:
         'A linear array is a single element wide with N number of elements across. The spacing may vary, but often it is uniform.',
