@@ -37,6 +37,7 @@ flutter:
     - assets/logos/
     - assets/icons/
     - assets/objects/
+    - assets/objects/antenna/
 
   #   - family: Schyler
   #     fonts:

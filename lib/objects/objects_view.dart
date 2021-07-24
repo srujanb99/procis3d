@@ -5,20 +5,23 @@ import 'package:procis3d/components/scaffold_theme.dart';
 import 'package:procis3d/constants.dart';
 import 'package:procis3d/objects/objects_listing.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:procis3d/screens/param_output.dart';
 import 'package:screenshot/screenshot.dart';
 //import 'package:model_viewer/model_viewer.dart';
 // https://medium.com/flutterdevs/explore-model-viewer-in-flutter-e5988edbfe66
 
 class ObjectView extends StatefulWidget {
   ObjectView(this.objectId);
-  final int objectId;
+  final String objectId;
   @override
   _ObjectViewState createState() => _ObjectViewState(objectId);
 }
 
 class _ObjectViewState extends State<ObjectView> {
   _ObjectViewState(this.objectId);
-  int objectId;
+  String objectId;
+  late String filePath;
+  late String fileType;
   late Object output3d;
   ScreenshotController screenshotController = ScreenshotController();
   late PhotoViewControllerBase controller;
@@ -29,25 +32,34 @@ class _ObjectViewState extends State<ObjectView> {
   double minRotation = -4.0;
   double maxRotation = 4.0;
   double propValue = 0.5;
-  late String fileType;
   int propNumber = 0;
   List<String> props = ['Scale', 'Rotation', 'Axes'];
-  String? defAxis = 'x';
-  List<String> axis = ['x', 'y', 'z'];
+  List<String> propUnits = ['%', 'deg'];
+  String? defAxis;
+  List<String> axis = ['-', 'X', 'Y', 'Z'];
 
   @override
   void initState() {
     fileType = objects3d[objectId]!.fileType;
+    filePath = objects3d[objectId]!.file;
     if (fileType == 'obj') {
       minScale = 0.0;
       defScale = 10.0;
       maxScale = 15.0;
       propValue = 10.0;
-      output3d =
-          Object(fileName: 'assets/objects/${objects3d[objectId]!.file}');
+      output3d = Object(fileName: 'assets/objects/$filePath');
       output3d.rotation.setValues(0, -90, 0);
       output3d.updateTransform();
     } else {
+      if (objectId.endsWith('X'))
+        defAxis = 'X';
+      else if (objectId.endsWith('Y'))
+        defAxis = 'Y';
+      else if (objectId.endsWith('Z'))
+        defAxis = 'Z';
+      else
+        defAxis = '-';
+      objectId = objectId.replaceAll(defAxis ?? '', '');
       controller = PhotoViewController();
     }
     super.initState();
@@ -61,121 +73,129 @@ class _ObjectViewState extends State<ObjectView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          child: Screenshot(
-            controller: screenshotController,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Center(
-                  child: (fileType == 'obj')
-                      ? Cube(
-                          onSceneCreated: (Scene scene) {
-                            scene.world.add(output3d);
-                            scene.camera.zoom = defScale;
-                          },
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: PhotoView(
-                            controller: controller,
-                            enableRotation: true,
-                            backgroundDecoration:
-                                BoxDecoration(color: Colors.white),
-                            initialScale: PhotoViewComputedScale.contained,
-                            minScale: minScale,
-                            maxScale: maxScale,
-                            imageProvider: AssetImage(
-                                'assets/objects/${objects3d[objectId]!.file}'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Screenshot(
+              controller: screenshotController,
+              child: Container(
+                height: 300.0,
+                width: 400.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Center(
+                    child: (fileType == 'obj')
+                        ? Cube(
+                            onSceneCreated: (Scene scene) {
+                              scene.world.add(output3d);
+                              scene.camera.zoom = defScale;
+                            },
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PhotoView(
+                              controller: controller,
+                              enableRotation: true,
+                              backgroundDecoration:
+                                  BoxDecoration(color: Colors.white),
+                              initialScale: PhotoViewComputedScale.contained,
+                              minScale: minScale,
+                              maxScale: maxScale,
+                              imageProvider:
+                                  AssetImage('assets/objects/$filePath'),
+                            ),
                           ),
-                        ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        (fileType == 'obj')
-            ? SliderTheme(
-                data: kSliderThemeData,
-                child: Slider(
-                  value: output3d.scene?.camera.zoom ?? defScale,
-                  label: (propValue * 100 / 15).toStringAsFixed(0),
-                  min: minScale,
-                  max: maxScale,
-                  onChanged: (double newValue) {
-                    setState(
-                      () {
-                        output3d.scene!.camera.zoom = newValue;
-                        propValue = newValue;
-                      },
-                    );
-                  },
-                ),
-              )
-            : Column(
-                children: [
-                  StreamBuilder(
-                    stream: controller.outputStateStream,
-                    initialData: controller.value,
-                    builder: _streamBuild,
-                  ),
-                  Text(
-                    props[propNumber],
-                    textAlign: TextAlign.center,
-                    style: kFormData,
-                  ),
-                  Container(
-                    width: 300.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      color: Colors.yellow.shade800,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Center(
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 1,
-                          scrollDirection: Axis.horizontal,
-                          primary: false,
-                          padding: const EdgeInsets.all(4.0),
-                          mainAxisSpacing: 10,
-                          physics: BouncingScrollPhysics(),
-                          children: getPropItems(),
-                        ),
+            (fileType == 'obj')
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: SliderTheme(
+                      data: kSliderThemeData,
+                      child: Slider(
+                        value: output3d.scene?.camera.zoom ?? defScale,
+                        label: (propValue * 100 / 15).toStringAsFixed(0),
+                        min: minScale,
+                        max: maxScale,
+                        onChanged: (double newValue) {
+                          setState(
+                            () {
+                              output3d.scene!.camera.zoom = newValue;
+                              propValue = newValue;
+                            },
+                          );
+                        },
                       ),
                     ),
+                  )
+                : Column(
+                    children: [
+                      StreamBuilder(
+                        stream: controller.outputStateStream,
+                        initialData: controller.value,
+                        builder: _streamBuild,
+                      ),
+                      Text(
+                        props[propNumber],
+                        textAlign: TextAlign.center,
+                        style: kFormData,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Container(
+                          width: 300.0,
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            color: Colors.yellow.shade800,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Center(
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                crossAxisCount: 1,
+                                scrollDirection: Axis.horizontal,
+                                primary: false,
+                                padding: const EdgeInsets.all(4.0),
+                                mainAxisSpacing: 10,
+                                physics: BouncingScrollPhysics(),
+                                children: getPropItems(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+            ElevatedButton(
+              onPressed: () {
+                screenshotController
+                    .capture(delay: Duration(milliseconds: 10))
+                    .then((capturedImage) async {
+                  showCapturedWidget(context, capturedImage!);
+                }).catchError((onError) {
+                  print(onError);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurpleAccent,
               ),
-        SizedBox(
-          height: 20.0,
+              child: Text('Save Image'),
+            ),
+          ],
         ),
-        ElevatedButton(
-          onPressed: () {
-            screenshotController
-                .capture(delay: Duration(milliseconds: 10))
-                .then((capturedImage) async {
-              showCapturedWidget(context, capturedImage!);
-            }).catchError((onError) {
-              print(onError);
-            });
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.deepPurpleAccent,
-          ),
-          child: Text('Save Image'),
-        ),
-      ],
+      ),
     );
     /* return ModelViewer(
       src: 'assets/objects/Sample.glb',
@@ -190,6 +210,7 @@ class _ObjectViewState extends State<ObjectView> {
     if (snapshot.hasError || !snapshot.hasData) {
       return Container();
     }
+    String propUnit = (propNumber < 2) ? propUnits[propNumber] : '';
     final PhotoViewControllerValue value = snapshot.data;
     if (propNumber == 0) {
       propValue = (value.scale ?? defScale) * 200;
@@ -253,16 +274,16 @@ class _ObjectViewState extends State<ObjectView> {
         onChanged: (String? newValue) {
           setState(() {
             defAxis = newValue;
-            /* Navigator.pop(context);
+            Navigator.pop(context);
             Navigator.push(
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) => ParamsOutput(
-                  objectId: 1,
+                  objectId: (defAxis != '-') ? objectId + '$defAxis' : objectId,
                 ),
                 transitionDuration: Duration(seconds: 0),
               ),
-            ); */
+            );
           });
         },
       ),
@@ -272,7 +293,7 @@ class _ObjectViewState extends State<ObjectView> {
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: Text(
-            propValue.toStringAsFixed(0),
+            propValue.toStringAsFixed(0) + ' ' + propUnit,
             style: kFormTitle,
             textAlign: TextAlign.center,
           ),
@@ -364,7 +385,9 @@ class _ObjectViewState extends State<ObjectView> {
         body: Center(
           child:
               // ignore: unnecessary_null_comparison
-              capturedImage != null ? Image.memory(capturedImage) : Container(),
+              (capturedImage != null)
+                  ? Image.memory(capturedImage)
+                  : Container(),
         ),
       ),
     );

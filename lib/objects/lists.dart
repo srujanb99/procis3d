@@ -27,9 +27,9 @@ List<String> getTopics(String? subject) {
 
 const List<String> electronics = [
   'Antenna',
-  'Analog Electronics',
-  'Integrated Circuits',
-  'VLSI',
+  //'Analog Electronics',
+  //'Integrated Circuits',
+  //'VLSI',
 ];
 
 const List<String> mathematics = [
@@ -71,17 +71,17 @@ const List<String> shapes3D = [
 ];
 
 const List<String> antenna = [
-  'Wire',
-  'Log Periodic',
-  'Aperture',
-  'Microstrip',
+  'Dipole',
+  'Monopole',
+  'Helix',
+  'Waveguide',
+  'Horn',
   'Reflector',
-  'Lens',
-  'Travelling-Wire',
-  'Array',
+  'Patch Microstrip',
+  'Yagi-Uda',
 ];
 
 const List<String> theories = [
-  'MOSFET',
+  'Design',
   'Radiation Patterns',
 ];

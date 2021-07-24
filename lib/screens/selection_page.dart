@@ -198,72 +198,91 @@ class _SelectionState extends State<Selection> {
     else
       selectedType = 'Theory';
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        DropDownSelector(
-          value: subject,
-          valueList: subjects,
-          listType: 'Subject',
-          onChanged: (String? newValue) {
-            setState(() {
-              subject = newValue!;
-              topic = getTopics(subject)[0];
-              topicListType = getTopicListType(topic);
-              figure = topic;
-            });
-          },
-        ).dropDownSelector(),
-        DropDownSelector(
-          value: topic,
-          valueList: getTopics(subject),
-          listType: 'Topic',
-          onChanged: (String? newValue) {
-            setState(() {
-              topic = newValue!;
-              topicListType = getTopicListType(topic);
-              figure = topic;
-            });
-          },
-        ).dropDownSelector(),
-        Center(
-          child: DefaultTextStyle.merge(
-            style: kFormTitle,
-            child: Container(
-              width: double.infinity,
-              height: 300.0,
-              padding: EdgeInsets.only(right: 90.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 0.0,
-                  color: Colors.yellow.shade800,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 50.0,
+              bottom: 25.0,
+            ),
+            child: DropDownSelector(
+              value: subject,
+              valueList: subjects,
+              listType: 'Subject',
+              onChanged: (String? newValue) {
+                setState(() {
+                  subject = newValue!;
+                  topic = getTopics(subject)[0];
+                  topicListType = getTopicListType(topic);
+                  figure = topic;
+                  selected = "";
+                });
+              },
+            ).dropDownSelector(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            child: DropDownSelector(
+              value: topic,
+              valueList: getTopics(subject),
+              listType: 'Topic',
+              onChanged: (String? newValue) {
+                setState(() {
+                  topic = newValue!;
+                  topicListType = getTopicListType(topic);
+                  figure = topic;
+                  selected = "";
+                });
+              },
+            ).dropDownSelector(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            child: Center(
+              child: DefaultTextStyle.merge(
+                style: kFormTitle,
+                child: Container(
+                  width: double.infinity,
+                  height: 300.0,
+                  padding: EdgeInsets.only(right: 90.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 0.0,
+                      color: Colors.yellow.shade800,
+                    ),
+                    borderRadius:
+                        BorderRadius.horizontal(right: Radius.circular(150)),
+                    color: Colors.yellow.shade800,
+                  ),
+                  child: topicView(topicListType),
                 ),
-                borderRadius:
-                    BorderRadius.horizontal(right: Radius.circular(150)),
-                color: Colors.yellow.shade800,
               ),
-              child: topicView(topicListType),
             ),
           ),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.deepOrange.shade800,
-          ),
-          child: Text('Next'),
-          onPressed: () {
-            //Navigator.pushNamed(context, '/params');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ParamsOutput(
-                  objectId: getObjectKeyId(figure),
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepOrange.shade800,
               ),
-            );
-          },
-        ),
-      ],
+              child: Text('Next'),
+              onPressed: () {
+                //Navigator.pushNamed(context, '/params');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ParamsOutput(
+                      objectId: getObjectKeyId(figure),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

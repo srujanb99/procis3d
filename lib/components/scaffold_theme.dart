@@ -20,13 +20,15 @@ class ScaffoldTheme extends StatelessWidget {
         ),
       ),
       body: Container(
+        constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topLeft, end: Alignment.bottomRight,
-          stops: [0.3, 1],
-          colors: [Colors.white30, Colors.grey.shade800],
-          //colors: [Colors.green, Colors.black],
-        )),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft, end: Alignment.bottomRight,
+            stops: [0.3, 1],
+            colors: [Colors.white30, Colors.grey.shade800],
+            //colors: [Colors.green, Colors.black],
+          ),
+        ),
         child: body,
       ),
     );
