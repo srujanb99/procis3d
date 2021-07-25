@@ -12,7 +12,7 @@ class ParamsOutput extends StatelessWidget {
     return ScaffoldTheme(
       title: 'Parameters & Output',
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,

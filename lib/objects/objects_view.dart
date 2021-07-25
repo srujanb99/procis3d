@@ -37,6 +37,7 @@ class _ObjectViewState extends State<ObjectView> {
   List<String> propUnits = ['%', 'deg'];
   String? defAxis;
   List<String> axis = ['-', 'X', 'Y', 'Z'];
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -75,13 +76,14 @@ class _ObjectViewState extends State<ObjectView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Screenshot(
-              controller: screenshotController,
+      child: ListView(
+        controller: scrollController,
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Screenshot(
+            controller: screenshotController,
+            child: Center(
               child: Container(
                 height: 300.0,
                 width: 400.0,
@@ -117,84 +119,89 @@ class _ObjectViewState extends State<ObjectView> {
                 ),
               ),
             ),
-            (fileType == 'obj')
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: SliderTheme(
-                      data: kSliderThemeData,
-                      child: Slider(
-                        value: output3d.scene?.camera.zoom ?? defScale,
-                        label: (propValue * 100 / 15).toStringAsFixed(0),
-                        min: minScale,
-                        max: maxScale,
-                        onChanged: (double newValue) {
-                          setState(
-                            () {
-                              output3d.scene!.camera.zoom = newValue;
-                              propValue = newValue;
-                            },
-                          );
-                        },
-                      ),
+          ),
+          (fileType == 'obj')
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: SliderTheme(
+                    data: kSliderThemeData,
+                    child: Slider(
+                      value: output3d.scene?.camera.zoom ?? defScale,
+                      label: (propValue * 100 / 15).toStringAsFixed(0),
+                      min: minScale,
+                      max: maxScale,
+                      onChanged: (double newValue) {
+                        setState(
+                          () {
+                            output3d.scene!.camera.zoom = newValue;
+                            propValue = newValue;
+                          },
+                        );
+                      },
                     ),
-                  )
-                : Column(
-                    children: [
-                      StreamBuilder(
-                        stream: controller.outputStateStream,
-                        initialData: controller.value,
-                        builder: _streamBuild,
-                      ),
-                      Text(
-                        props[propNumber],
-                        textAlign: TextAlign.center,
-                        style: kFormData,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Container(
-                          width: 300.0,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            color: Colors.yellow.shade800,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Center(
-                              child: GridView.count(
-                                shrinkWrap: true,
-                                crossAxisCount: 1,
-                                scrollDirection: Axis.horizontal,
-                                primary: false,
-                                padding: const EdgeInsets.all(4.0),
-                                mainAxisSpacing: 10,
-                                physics: BouncingScrollPhysics(),
-                                children: getPropItems(),
-                              ),
+                  ),
+                )
+              : Column(
+                  children: [
+                    StreamBuilder(
+                      stream: controller.outputStateStream,
+                      initialData: controller.value,
+                      builder: _streamBuild,
+                    ),
+                    Text(
+                      props[propNumber],
+                      textAlign: TextAlign.center,
+                      style: kFormData,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: Container(
+                        width: 300.0,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          color: Colors.yellow.shade800,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Center(
+                            child: GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 1,
+                              scrollDirection: Axis.horizontal,
+                              primary: false,
+                              padding: const EdgeInsets.all(4.0),
+                              mainAxisSpacing: 10,
+                              physics: BouncingScrollPhysics(),
+                              children: getPropItems(),
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-            ElevatedButton(
-              onPressed: () {
-                screenshotController
-                    .capture(delay: Duration(milliseconds: 10))
-                    .then((capturedImage) async {
-                  showCapturedWidget(context, capturedImage!);
-                }).catchError((onError) {
-                  print(onError);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurpleAccent,
+                    ),
+                  ],
+                ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  screenshotController
+                      .capture(delay: Duration(milliseconds: 10))
+                      .then((capturedImage) async {
+                    showCapturedWidget(context, capturedImage!);
+                  }).catchError((onError) {
+                    print(onError);
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepPurpleAccent,
+                ),
+                child: Text('Save Image'),
               ),
-              child: Text('Save Image'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
     /* return ModelViewer(
