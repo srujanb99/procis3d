@@ -52,7 +52,7 @@ class About extends StatelessWidget {
                 ],
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => launch('https://forms.gle/7yjfknvSsDLa8yPg9'),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.lightBlue,
                 ),
