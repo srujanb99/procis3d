@@ -246,17 +246,21 @@ class _SelectionState extends State<Selection> {
               child: Container(
                 width: double.infinity,
                 height: 300.0,
-                padding: EdgeInsets.only(right: 90.0),
+                padding: EdgeInsets.only(right: 50.0),
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 0.0,
                     color: Colors.yellow.shade800,
                   ),
                   borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(150)),
+                      BorderRadius.horizontal(right: Radius.circular(150.0)),
                   color: Colors.yellow.shade800,
                 ),
-                child: topicView(topicListType),
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.horizontal(right: Radius.circular(100.0)),
+                  child: topicView(topicListType),
+                ),
               ),
             ),
           ),

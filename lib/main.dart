@@ -30,7 +30,7 @@ class Splash extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Replace the 3 second delay with your initialization code:
-      future: Future.delayed(Duration(seconds: 1)), //3-4 Seconds
+      future: Future.delayed(Duration(seconds: 3)), //3-4 Seconds
       builder: (context, AsyncSnapshot snapshot) {
         // Show splash screen while waiting for app resources to load:
         if (snapshot.connectionState == ConnectionState.waiting) {
